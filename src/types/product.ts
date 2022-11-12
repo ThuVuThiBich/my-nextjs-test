@@ -13,7 +13,7 @@ export interface IProduct {
   Price: number;
   Brand: string;
   Id: number;
-  pictures: IProduct[];
+  pictures: IPicture[];
   Status: string;
   Description: string;
 }
@@ -38,3 +38,7 @@ export interface IThumbDetail {
   width: number;
   height: number;
 }
+
+export type TParam = {
+  params: { id: string };
+};

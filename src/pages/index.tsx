@@ -2,7 +2,7 @@ import { getProducts } from 'api/product';
 import Product from 'components/product';
 import Head from 'next/head';
 import { FC } from 'react';
-import { IRecord, IRecords } from 'types/product';
+import { IRecord } from 'types/product';
 import styles from '../styles/Home.module.css';
 
 interface HomeProps {
@@ -20,11 +20,14 @@ const Home: FC<HomeProps> = ({ records }) => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>List of products </h1>
-
-        <div className={styles.grid}>
+           <div className={styles.grid}>
           {records.length > 0 ? (
             records.map((record: IRecord) => (
-              <Product key={record.id} product={record.fields} />
+              <Product
+                key={record.id}
+                recordId={record.id}
+                product={record.fields}
+              />
             ))
           ) : (
             <div>No Data</div>

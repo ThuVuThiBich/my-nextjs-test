@@ -1,7 +1,17 @@
+import { getProductById, getProductIds } from 'api/product';
+import ImageSlider from 'components/imageSlider';
 import Head from 'next/head';
+import Image from 'next/image';
+import { FC } from 'react';
+import { IRecord, TParam } from 'types/product';
 import styles from '../styles/Home.module.css';
 
-export default function ProductPage() {
+interface ProductPageProps {
+  record: IRecord;
+}
+
+const ProductPage: FC<ProductPageProps> = ({ record }) => {
+  const product = record.fields;
   return (
     <div className={styles.container}>
       <Head>
@@ -11,12 +21,41 @@ export default function ProductPage() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>List of products </h1>
-
-        <div className={styles.grid}></div>
+        <h1 className={styles.title}>Product Detail </h1>
+        <div>
+          {/* (name, description, brand, picture, price) */}
+          <div className={'grid md:grid-cols-2 gap-4'}>
+            <div>
+              <h1>{product.Name}</h1>
+              <h2>{product.Brand}</h2>
+              <h3>{product.Price}</h3>
+              <p>{product.Description}</p>
+            </div>
+            <div>
+                <ImageSlider pictures={product.pictures}/>
+            </div>
+          </div>
+        </div>
+        <div>Reviews</div>
       </main>
 
       <footer className={styles.footer}>Copyright © 2022 7hu</footer>
     </div>
   );
-}
+};
+
+export const getStaticPaths = async () => {
+  const paths = await getProductIds();
+  return { paths, fallback: false };
+};
+
+export const getStaticProps = async (params: TParam) => {
+  const record = await getProductById(params.params.id);
+  return {
+    props: {
+      record,
+    },
+  };
+};
+
+export default ProductPage;
