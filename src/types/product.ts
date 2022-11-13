@@ -42,3 +42,34 @@ export interface IThumbDetail {
 export type TParam = {
   params: { id: string };
 };
+
+export interface IStock {
+  ProductID: number;
+  Stock: number;
+}
+
+export interface IRecordStock {
+  id: string;
+  createdTime: string;
+  fields: IStock;
+}
+export interface IRecordStocks {
+  records: IRecordStock[];
+}
+
+export interface IReview {
+  ProductID: string;
+  Rating: number;
+  Title: string;
+  Date: string;
+  Description: string;
+  Author: string;
+}
+export interface IRecordReview {
+  id: string;
+  createdTime: string;
+  fields: IReview;
+}
+export interface IRecordReviews {
+  records: IReview[];
+}

@@ -1,16 +1,25 @@
-import { getProductById, getProductIds } from 'api/product';
+import {
+  getProductById,
+  getProductIds,
+  getProductReviews,
+  getProductStock,
+} from 'api/product';
 import ImageSlider from 'components/imageSlider';
+import Review from 'components/review';
 import Head from 'next/head';
 import Image from 'next/image';
 import { FC } from 'react';
-import { IRecord, TParam } from 'types/product';
+import { IRecord, IRecordReview, IReview, TParam } from 'types/product';
+import { handleStockAvailable } from 'utils/helper';
 import styles from '../styles/Home.module.css';
 
 interface ProductPageProps {
   record: IRecord;
+  reviews: IRecordReview[];
+  stock: number;
 }
 
-const ProductPage: FC<ProductPageProps> = ({ record }) => {
+const ProductPage: FC<ProductPageProps> = ({ record, reviews, stock }) => {
   const product = record.fields;
   return (
     <div className={styles.container}>
@@ -27,7 +36,12 @@ const ProductPage: FC<ProductPageProps> = ({ record }) => {
             <div className="flex flex-col space-y-4 justify-center">
               <h1 className="font-bold text-2xl">{product.Name}</h1>
               <h2>Brand: {product.Brand}</h2>
-              <div className="px-4 py-1 bg-yellow-400 w-fit rounded-lg text-white">{product.Price} $</div>
+              <div className="px-4 py-1 bg-yellow-400 w-fit rounded-lg text-white">
+                {product.Price} $
+              </div>
+              <div className="text-red-600 italic">
+                {handleStockAvailable(stock)}
+              </div>
               <p>{product.Description}</p>
             </div>
             <div>
@@ -35,7 +49,16 @@ const ProductPage: FC<ProductPageProps> = ({ record }) => {
             </div>
           </div>
         </div>
-        <div>Reviews</div>
+        <div className="w-4/5 mx-auto">
+          <h2 className="font-semibold text-2xl text-center">
+            Reviews
+          </h2>
+          <div className="grid grid-cols-2">
+            {reviews.map((review) => (
+              <Review key={review.id} review={review.fields} />
+            ))}
+          </div>
+        </div>
       </main>
 
       <footer className={styles.footer}>Copyright © 2022 7hu</footer>
@@ -50,9 +73,13 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (params: TParam) => {
   const record = await getProductById(params.params.id);
+  const recordReviews = await getProductReviews(record.fields.Id);
+  const recordStock = await getProductStock(record.fields.Id);
   return {
     props: {
       record,
+      reviews: recordReviews.records,
+      stock: recordStock.records[0].fields.Stock,
     },
   };
 };
