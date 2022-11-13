@@ -11,14 +11,18 @@ const ImageSlider: FC<ImageSliderProps> = ({ pictures }) => {
   const router = useRouter();
   const [currentImage, setCurrentImage] = useState<IPicture>(pictures[0]);
   return (
-    <div onClick={() => {}}>
-      <div>
+    <div className="flex items-center" onClick={() => {}}>
+      <div className="p-4 w-4/5">
         <img src={currentImage?.url} alt={''} />
       </div>
-      <div className="flex flex-nowrap">
+      <div className="flex flex-col w-1/5 justify-center">
         {pictures.map((picture) => (
-          <div key={picture.id}>
-            <img src={currentImage?.url} alt={''} />
+          <div key={picture.id} className="p-4">
+            <img
+              src={currentImage?.url}
+              alt={''}
+              className="h-full w-full object-scale-down"
+            />
           </div>
         ))}
       </div>

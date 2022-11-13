@@ -22,17 +22,16 @@ const ProductPage: FC<ProductPageProps> = ({ record }) => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Product Detail </h1>
-        <div>
-          {/* (name, description, brand, picture, price) */}
-          <div className={'grid md:grid-cols-2 gap-4'}>
-            <div>
-              <h1>{product.Name}</h1>
-              <h2>{product.Brand}</h2>
-              <h3>{product.Price}</h3>
+        <div className="my-8">
+          <div className={'grid md:grid-cols-2 gap-4 p-8'}>
+            <div className="flex flex-col space-y-4 justify-center">
+              <h1 className="font-bold text-2xl">{product.Name}</h1>
+              <h2>Brand: {product.Brand}</h2>
+              <div className="px-4 py-1 bg-yellow-400 w-fit rounded-lg text-white">{product.Price} $</div>
               <p>{product.Description}</p>
             </div>
             <div>
-                <ImageSlider pictures={product.pictures}/>
+              <ImageSlider pictures={product.pictures} />
             </div>
           </div>
         </div>

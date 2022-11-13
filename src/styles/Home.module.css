@@ -70,10 +70,10 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 800px;
+  max-width: 1200px;
 }
 
-.logo {
+.teo {
   height: 1em;
   margin-left: 0.5rem;
 }
