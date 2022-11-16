@@ -1,8 +1,6 @@
-import { getProductById, getProductIds } from 'api/product';
 import { useRouter } from 'next/router';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { IProduct } from 'types/product';
-import styles from './Product.module.css';
 
 interface ProductProps {
   recordId: string;
@@ -12,7 +10,10 @@ interface ProductProps {
 const Product: FC<ProductProps> = ({ recordId, product }) => {
   const router = useRouter();
   return (
-    <div className={styles.card} onClick={() => router.push(`${recordId}`)}>
+    <div
+      className="w-full m-4 p-6 border border-slate-200 rounded-md cursor-pointer hover:border-blue-400"
+      onClick={() => router.push(`${recordId}`)}
+    >
       <div className="w-full h-64">
         <img
           className="h-full w-full object-scale-down"
